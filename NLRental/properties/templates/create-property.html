@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Add Property</title>
+    </head>
+
+    <body>
+        <div>
+            <h1>Add Property</h1>
+            <form action="{% url 'add_property' %}" method="post">
+                {% csrf_token %}
+                {% if message %}
+                    <div>{{ message }}</div>
+                {% endif %}
+                {{ newpropertyform }}
+                <input type="submit" value="Add Property">
+            </form>
+        </div>
+    </body>
+</html>

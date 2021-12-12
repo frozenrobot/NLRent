@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Search by Cost Per Square Meter</title>
+    </head>
+
+    <body>
+        <div>
+            <a>Search by Cost Per Square Meter</a><br>
+			<form action="{% url 'cost_per_sqm' %}" method="post">
+				{% csrf_token %}
+				{{costpersqmform}}
+			</form>
+        </div>
+    </body>
+</html>

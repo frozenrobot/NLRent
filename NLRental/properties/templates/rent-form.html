@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Search by Rent</title>
+    </head>
+
+    <body>
+        <div>
+            <a>Search by Rent</a><br>
+			<form action="{% url 'rent' %}" method="post">
+				{% csrf_token %}
+				{{rentform}}
+			</form>
+        </div>
+    </body>
+</html>

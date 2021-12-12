@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Search by Latitude and Longitude</title>
+    </head>
+
+    <body>
+        <div>
+            <a>Search by Latitude and Longitude</a><br>
+			<form action="{% url 'lat_and_long' %}" method="post">
+				{% csrf_token %}
+				<input type="number" name="Latitude">
+				<input type="number" name="Longitude">
+				<input type="submit" value="Search">
+			</form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Search Property</title>
+    </head>
+
+    <body>
+        <div>
+            <a>Search Property</a><br>
+            Search by:<br>
+			<a href="{% url 'extID_form' %}">externalID</a><br>
+            <a href="{% url 'lat_and_long_form' %}">Latitude and Longitude</a><br>
+			<a href="{% url 'budget_form' %}">Budget</a><br>
+            <a href="{% url 'rent_form' %}">Rental Cost</a><br>
+			<a href="{% url 'cost_per_sqm_form' %}">Cost per Square Meter</a><br>
+        </div>
+    </body>
+</html>

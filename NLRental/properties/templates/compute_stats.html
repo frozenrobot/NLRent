@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Compute Statistics</title>
+    </head>
+
+    <body>
+        <div>
+            <a>Descriptive Statistics for all Properties in a City</a><br>
+			<form action="{% url 'stats_city' %}" method="post">
+				{% csrf_token %}
+				<input type="text" name="City">
+				<input type="submit" value="Search">
+			</form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Search by externalID</title>
+    </head>
+
+    <body>
+        <div>
+            <a>Search by externalID</a><br>
+			<form action="{% url 'extID' %}" method="post">
+				{% csrf_token %}
+				<input type="text" name="externalID">
+				<input type="submit" value="Search">
+			</form>
+        </div>
+    </body>
+</html>

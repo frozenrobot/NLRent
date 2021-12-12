@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Delete Property</title>
+    </head>
+
+    <body>
+        <div>
+            <a>Delete Property</a>
+            Are you sure you want to delete the following property?<br>
+            externalID: {{property.externalID}}<br>
+            city: {{property.city}}<br>
+            longitude: {{property.longitude}}<br>
+            latitude: {{property.latitude}}<br>
+            rent: {{property.rent}}<br>
+            areaSqm: {{property.areaSqm}}<br>
+            isRoomActive: {{property.isRoomActive}}<br><br>
+            <a href="{% url 'confirm_delete_property' id=property.externalID %}">Yes</a><br>
+            <a href="{% url 'index' %}">No</a>
+        </div>
+    </body>
+</html>
