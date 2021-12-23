@@ -1,0 +1,518 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Rental Property API Group 40",
+		"description": "A web app to manipulate a set of Dutch rental properties",
+		"license": {
+		"name": "MIT"
+		}
+	},
+	"servers": [
+		{
+		"url": "localhost:3000"
+		}
+	],
+	"components": {
+		"schemas": {
+			"Property": {
+				"type": "object",
+				"required": [
+					"externalId"
+				],
+				"properties": {
+					"externalId": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"latitude": {
+						"type": "number"
+					},
+					"longitude": {
+						"type": "number"
+					},
+					"rent": {
+						"type": "number"
+					},
+					"areaSqm": {
+						"type": "number"
+					},
+					"deposit": {
+						"type": "number"
+					},
+					"isRoomActive": {
+						"type": "boolean"
+					},
+					"costPerSqm": {
+						"type": "number"
+					}
+				}
+			}
+		},
+		"responses": {
+			"BadRequest": {
+				"description": "Request was not well-formed, see error details",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error-message": {
+									"type": "string",
+									"description": "Bad request retrieved."
+								}
+							}
+						}
+					}
+				}
+			},
+			"NotFound": {
+				"description": "Resource not found."
+			},
+			"Conflict": {
+				"description": "Request would cause a conflict of resources."
+			},
+			"NoResults": {
+				"description": "Request yielded no results."
+			},
+			"ServerError": {
+				"description": "Server error, wait several minutes before requesting again."
+			},
+			"DefaultError": {
+				"description": "Unexpected Error."
+			}
+		},
+	
+		"securitySchemes": {
+			"BasicAuth": {
+				"type": "http",
+				"scheme": "basic"
+			}
+		}
+	},
+	"paths": {
+		"/budget": {
+			"get": {
+				"summary": "Properties based on selected budget range",
+				"operationId" : "byRent",
+				"parameters": [
+					{
+						"name" : "minRent",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "integer"
+						}
+					},
+					{
+						"name" : "maxRent",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "integer"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Properties based on selected budget succesfully retrieved",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/Property"
+									}
+								}
+							}
+						}
+					},
+					"204" : {
+						"$ref": "#/components/responses/NoResults"
+					},
+					"400" : {
+						"$ref": "#/components/responses/BadRequest"
+					},
+					"5XX" : {
+						"$ref": "#/components/responses/ServerError"
+					},
+					"default": {
+						"$ref": "#/components/responses/DefaultError"
+					}
+				}
+			}
+		},
+		"/statistics/": {        
+			"get": {
+				"summary": "Computes the mean, median and standard deviation for properties in a given city",
+				"operationId" : "stats",
+				"tags": [
+					"statistics",
+					"mean",
+					"median",
+					"standard deviation"
+				],
+				"parameters": [
+					{
+						"name" : "city",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "string"						}
+					}
+				],
+				"responses": {
+					"200" : {
+						"description" : "Statistics of given city succesfully computed",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						}
+					},
+					"204" : {
+						"$ref": "#/components/responses/NoResults"
+					},
+					"400" : {
+						"$ref": "#/components/responses/BadRequest"
+					},
+					"5XX" : {
+						"$ref": "#/components/responses/ServerError"
+					},
+					"default": {
+						"$ref": "#/components/responses/DefaultError"
+					}
+				}
+			}
+		},
+		"/property": {
+			"get": {
+				"summary": "Retrieves a property based on a externalId",
+				"operationId": "byExternalId",
+				"tags": [
+					"property"
+				],
+				"parameters": [
+					{
+						"name" : "externalID",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "string"
+						}
+					}
+				],
+				"responses": {
+					"200" : {
+						"description" : "Property retrieved based on a externalId",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Property"
+								}
+							}
+						}
+					},
+					"204" : {
+						"$ref": "#/components/responses/NoResults"
+					},
+					"409" : {
+						"$ref": "#/components/responses/Conflict"
+					},
+					"404" : {
+						"$ref": "#/components/responses/NotFound"
+					},
+					"5XX" : {
+						"$ref": "#/components/responses/ServerError"
+					},
+					"default": {
+						"$ref": "#/components/responses/DefaultError"
+					}
+				}
+			}
+		},
+		"/create": {
+			"post": {
+				"summary": "Creates a new property based on an externalId",
+				"operationId": "create",
+				"tags" : [
+					"create"
+				],
+				"parameters": [],
+				"responses": {
+					"201": {
+						"description": "New property created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"description": "New property"
+								}
+							}
+						}
+					},
+					"409" : {
+						"$ref": "#/components/responses/Conflict"
+					},
+					"5XX" : {
+						"$ref": "#/components/responses/ServerError"
+					},
+					"default": {
+						"$ref": "#/components/responses/DefaultError"
+					}
+				}
+			}
+		},
+		"/update": {
+			"post" : {
+				"summary": "Updates a property based on an externalId, or longitude and latitude. Parameters: Either externalId or both longitude and latitude are required. Refer to documentation.",
+				"operationId" : "update",
+				"tags": [
+					"update-property"
+				],
+				"parameters": [
+					{
+						"name" : "externalID",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "string"
+						}
+					}, 
+					{
+						"name" : "longitude",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "number"
+						}
+					}, 
+					{
+						"name" : "latitude",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "number"
+						}
+					}
+				],
+				"responses": {
+					"200" : {
+						"description" : "Property updated successfully, updated property returned.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Property"
+								}
+							}
+						}
+					},
+					"204" : {
+						"$ref": "#/components/responses/NoResults"
+					},
+					"409" : {
+						"$ref": "#/components/responses/Conflict"
+					},
+					"404" : {
+						"$ref": "#/components/responses/NotFound"
+					},
+					"5XX" : {
+						"$ref": "#/components/responses/ServerError"
+					},
+					"default": {
+						"$ref": "#/components/responses/DefaultError"
+					}
+				}
+			}
+		},
+		"/delete": {
+			"delete" : {
+				"summary": "Deletes a property based on an externalId, or latitude and longitude.  Parameters: Either externalId or both longitude and latitude are required. Refer to documentation.",
+				"operationId" : "delete",
+				"tags": [
+					"property"
+				],
+				"parameters": [
+					{
+						"name" : "externalID",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "string"
+						}
+					},
+					{
+						"name" : "longitude",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "number"
+						}
+					}, 
+					{
+						"name" : "latitude",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "number"
+						}
+					}
+				],
+				"responses": {
+					"200" : {
+						"description" : "Property deleted successfully"
+					},
+					"204" : {
+						"$ref": "#/components/responses/NoResults"
+					},
+					"404" : {
+						"$ref": "#/components/responses/NotFound"
+					},
+					"5XX" : {
+						"$ref": "#/components/responses/ServerError"
+					},
+					"default": {
+						"$ref": "#/components/responses/DefaultError"
+					}
+				}
+			}
+		},
+		"/top-rent": {        
+			"get": {
+				"summary": "Top N active properties in a city sorted by rental cost",
+				"operationId": "topByRent",
+				"tags": [
+					"top",
+					"sorted",
+					"rent"
+				],
+				"parameters": [
+					{
+						"name" : "city",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "string"
+						}
+					},
+					{
+						"name" : "order",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "string"
+						}
+					}, 
+					{
+						"name" : "n",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "number"
+						}
+					}
+				],
+				"responses": {
+					"200" : {
+						"description" : "Top properties by rent in specified ordering retrieved",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+									"$ref": "#/components/schemas/Property"
+									}
+								}
+							}
+						}
+					},
+					"204" : {
+						"$ref": "#/components/responses/NoResults"
+					},
+					"400" : {
+						"$ref": "#/components/responses/BadRequest"
+					},
+					"5XX" : {
+						"$ref": "#/components/responses/ServerError"
+					},
+					"default": {
+						"$ref": "#/components/responses/DefaultError"
+					}
+				}
+			}
+		},
+		"/top-cost-per-sqm": {        
+			"get": {
+				"summary": "Top N active properties in a city sorted by cost per square meter",
+				"operationId": "topByCostPerSqm",
+				"tags": [
+					"top",
+					"sorted",
+					"costPerSqm"
+				],
+				"parameters": [
+					{
+						"name" : "city",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "string"
+						}
+					},
+					{
+						"name" : "order",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "string"
+						}
+					}, 
+					{
+						"name" : "n",
+						"in" : "query",
+						"required" : true,
+						"schema" : {
+							"type" : "number"
+						}
+					}
+				],
+				"responses": {
+					"200" : {
+						"description" : "Top properties by cost per square meter in specified ordering retrieved",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+									"$ref": "#/components/schemas/Property"
+									}
+								}
+							}
+						}
+					},
+					"204" : {
+						"$ref": "#/components/responses/NoResults"
+					},
+					"400" : {
+						"$ref": "#/components/responses/BadRequest"
+					},
+					"5XX" : {
+						"$ref": "#/components/responses/ServerError"
+					},
+					"default": {
+						"$ref": "#/components/responses/DefaultError"
+					}
+				}
+			}
+		}
+	},
+	"security": [
+		{
+		  "BasicAuth": []
+		}
+	]
+}

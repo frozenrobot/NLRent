@@ -1,0 +1,54 @@
+The different endpoints can be accessed as follows:
+
+'Api Urls':''
+- Gives an overview of the urls required to access each endpoint
+
+'Search by externalId':'property/<externalId>/'
+- If a property matching the specified externalId exists, it will be returned
+
+'Search by Latitude and Longitude':'/property/<latitude>/<longitude>/'
+- If a property matching the specified latitude and longitude exists, it will be returned
+
+'Create Property':'create/'
+- Creates a new property, taking user input in the form of JSON data (CSV input yet to be implemented). ExternalId is a required parameter.
+
+'Update Property by externalId':'update/<externalId>/'
+- Replaces the property with specified externalId with new data sent by POST request. ExternalID cannot be altered.
+
+'Delete Property by externalId':'delete/<externalId>/'
+- Deletes the property with specified externalId, if it exists.
+
+'Update Property by Latitude and Longitude':'update/<latitude>/<longitude>/'
+- Replaces the property with specified latitude and longitude with new data sent by POST request. ExternalID cannot be altered.
+
+'Delete Property by Latitude and Longitude':'delete/<latitude>/<longitude>/'
+- Deletes the property with specified latitude and longitude, if it exists.
+
+'Search by City':'city/<city>/'
+- Returns all the properties in the specified city.
+
+'Search by Budget':'budget/<city>/<minimum>/<maximum>/'
+- Returns all the properties in the specified city with rent between the specified minimum and maximum.
+
+'Top N Properties in a City by Rent':'top-rent/<city>/<order>/<N>/'
+- Returns the top N properties in the specified city, active to rent, sorted by rent, in order 'ascending'/'descending' (In this version, N is a required parameter. Will be changed to optional in final submission.)
+
+'Top N Properties in a City by Cost Per Square Meter':'top-cost-per-sqm/<city>/<order>/<N>/'
+- Returns the top N properties in the specified city, active to rent, sorted by cost per square meter, in order 'ascending'/'descending' (In this version, N is a required parameter. Will be changed to optional in final submission.)
+
+'Descriptive Statistics of Properties by City':'statistics/<city>/
+- Shows the mean, median and standard deviation of the rent and deposit of all properties in the specified city for which the rent and deposit are both available.
+
+
+All url parameters are case sensitive.
+
+Instructions to launch locally:
+- Check requirements.txt file (pip install -r requirements.txt)
+- Download properties.json from https://www.kaggle.com/juangesino/netherlands-rent-properties?select=properties.json
+- Execute from command line in directory M2_submission/NLRent: sed '1s/^/[/;$!s/$/,/;$s/$/]/' 'properties.json' > properties
+- Execute from command line in directory M2_submission/NLRent: python manage.py runserver
+
+TODO:
+Support CSV representation of resources
+Input validation for POST requests
+N should be an optional parameter
