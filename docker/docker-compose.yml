@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  webeng-test:
+    build: ./NLRent
+    ports:
+      - ${BACKEND_PORT}:8000

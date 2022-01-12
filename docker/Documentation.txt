@@ -1,0 +1,56 @@
+Documentation:
+
+The different endpoints can be accessed as follows:
+
+'Api Urls':''
+- Gives an overview of the urls required to access each endpoint
+
+'Create Property':’property/' [POST]
+- Creates a new property, taking user input in the form of JSON data. ExternalId is a required parameter.
+
+'Search by externalId':'property/<externalId>/' [GET]
+- If a property matching the specified externalId exists, it will be returned
+
+'Update Property by externalId':property/<externalId>/' [PATCH]
+- Updates the property with the specified externalId with new data sent by a PATCH request. ExternalID cannot be altered and is a required field. Other than that, only the fields needing update need to be sent.
+
+'Delete Property by externalId':property/<externalId>/' [DELETE]
+- Deletes the property with the specified externalId, if it exists.
+
+'Search by Latitude and Longitude':'/properties/?lat=...&long=...' [GET]
+- All properties matching the specified latitude and longitude will be returned
+
+'Update Property by Latitude and Longitude':properties/?lat=...&long=...' [PATCH]
+- Replaces the property with specified latitude and longitude with new data sent by PATCH request. ExternalID cannot be altered.
+
+'Delete Property by Latitude and Longitude':properties/?lat=...&long=...' [PATCH]
+- Deletes all properties with the specified latitude and longitude.
+
+‘Extra Information by Latitude and Longitude’:’properties/extra/?lat=...&long=...’ [GET]
+- Displays the plusCode, principal subdivision, principal subdivision code and locality of the specified latitude and longitude, if the data is available. 
+
+'Search by City':'properties/city/<city>/' [GET]
+- Returns all the properties in the specified city.
+
+'Search by Budget':'properties/budget/?city=...&min=...&max=...' [GET]
+- Returns all the properties in the specified city with rent between the specified minimum and maximum.
+
+'Top N Properties in a City by Rent':'properties/top-rent/?city=...&order=...&n=...' [GET]
+- Returns the top N properties in the specified city, active to rent, sorted by rent, in order 'ascending'/'descending'. If n is not provided, N=10 will be used by default.
+
+'Top N Properties in a City by Cost Per Square Meter':'properties/top-cost-per-sqm/?city=...&order=...&n=...' [GET]
+- Returns the top N properties in the specified city, active to rent, sorted by cost per square meter, in order 'ascending'/'descending'. If n is not provided, N=10 will be used by default.
+
+'Descriptive Statistics of Properties by City':'statistics/?city=... [GET]
+- Shows the mean, median and standard deviation of the rent and deposit of all properties in the specified city for which the rent and deposit are both available.
+
+GET requests can be sent with an additional query parameter: csv=true.
+By default the return type is JSON, but if csv=true is mentioned, a CSV file containing the response data will be returned.
+
+Instructions to launch locally:
+- Check requirements.txt file (pip install -r requirements.txt)
+- Execute from command line in directory NLRent: python manage.py runserver
+- The application should now be running on localhost
+
+TODO:
+// Input validation for POST requests
