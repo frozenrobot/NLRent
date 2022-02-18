@@ -1,0 +1,34 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development --entry ./src/index.js --output-path ./static/frontend"
+  },
+  "browser": {
+    "[module-name]": false
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.3",
+    "react": "^17.0.2",
+    "react-cookies": "^0.1.1",
+    "react-dom": "^17.0.2",
+    "regenerator-runtime": "^0.13.9",
+    "webpack": "^5.66.0",
+    "webpack-cli": "^4.9.1",
+    "whatwg-fetch": "^3.6.2"
+  },
+  "dependencies": {
+    "react-csv": "^2.2.2",
+    "react-router-dom": "^6.2.1",
+    "semantic-ui-react": "^2.0.4"
+  }
+}
